@@ -10,46 +10,70 @@ The following components must be installed in order to go through the Usage Inst
 
 * Java-oriented version of [Eclipse](http://www.eclipse.org/) (such as the Eclipse IDE for Java Developers)
 * Java JDK version 6 or higher
-* [Processing 2.0a6](http://processing.org/download/) or later
 * [Android SDK](http://developer.android.com/sdk/index.html) with the API level 10 or later.
+* [Processing 2.0](http://processing.org/download/) or later
+* Android mode for Processing, downloaded in the PDE using the Mode Manager.
 
-## Usage Instructions
+## Import to Eclipse
 
-Based on the [[Eclipse Library Template|Eclipse-Library-Template]]
+There are two options to import the template project into Eclipse: using a Git [fork](https://help.github.com/articles/fork-a-repo) or using a downloaded package. If you are not familiar with Git or GitHub, you should opt for the downloaded package.
 
-1. Download the latest version of the [Processing Android Library Template](https://github.com/processing/processing-android-library-template/releases). **Don't unzip the ZIP file yet.**
-1. Create a new Java project in Eclipse.
-  * From the menubar choose File → New → Java Project.
-  * Give the project the name of your library.
-  * Click "Finish".
+### Option A: GitHub
+
+1. Fork the template repository to use as a starting point.
+  * Navigate to https://github.com/processing/processing-android-library-template in your browser.
+  * Click the "Fork" button in the top-right of the page.
+  * Once your fork is ready, open the new repository's "Settings" by clicking the link in the menu bar on the right.
+  * Change the repository name to the name of your library and save your changes.
+1. Clone your new repository to your Eclipse workspace.
+  * Open Eclipse and select the File → Import... menu item.
+  * Select Git → Projects from Git, and click "Next >".
+  * Select "URI" and click "Next >". 
+  * Enter your repository's clone URL in the "URI" field. The remaining fields in the "Location" and "Connection" groups will get automatically filled in.
+  * Enter your GitHub credentials in the "Authentication" group, and click "Next >".
+  * Select the `master` branch on the next screen, and click "Next >".
+  * The default settings on the "Local Configuration" screen should work fine, click "Next >".
+  * Make sure "Import existing projects" is selected, and click "Next >".
+  * Eclipse should find and select the `processing-library-template` automatically, click "Finish".
+1. Rename your Eclipse project.
+  * In the Package Explorer, right-click (ctrl-click) on the folder icon of the `processing-android-library-template` project, and select Refactor → Rename... from the menu that pops up. 
+  * Give the project the name of your library, and click "OK".
+  
+### Option B: Downloaded Package
+
+1. Download the latest Eclipse template from [here](https://github.com/processing/processing-android-library-template/releases). **Don't unzip the ZIP file yet.**
+1. Create a new Java project in Eclipse. 
+* From the menubar choose File → New → Java Project. 
+* Give the project the name of your library. 
+* Click "Finish".
+1. Import the template source files.
+* Right-click (ctrl-click) onto the folder icon of your newly created project in the Package Explorer and select "Import..." from the menu that pops up. 
+* Select General → Archive File, and click "Next >".
+* Navigate to the ZIP file you downloaded earlier in step 1, and click "Finish".
+
+## Set Up and Compile
+
 1. Add the Processing and Android libraries to the Project build path to enable syntax highlighting and library reference in Eclipse.
   * Processing Android Core Library (`android-core.zip`). There are two main ways of doing this, depending on how bleeding-edge you want to be.
       1. Point to the android-core.zip that comes with the Processing application.
           * Open the Properties panel for your project (right-click/control-click on the project → Properties)
           * Click on Java Build Path → Libraries
           * Click the Add External JARs... button
-          * Locate the `android-core.zip` file for your Processing installation:
-              * OS X
-                  1. Enter Command-Shift-G to open the "Go to the folder:" box.
-                  1. Enter "/Applications/Processing.app/Contents/Resources/Java/modes/android" (assuming you installed Processing to Applications and didn't rename the application) and click Go.
-                  1. Select the android-core.zip file.
-                  1. Click Open.
-              * Windows
-                  1. Browse to the location of your Processing installation.
-                  1. In the Processing application folder, browse to modes\android\.
-                  1. Select the android-core.zip file.
-                  1. Click Open.
+          * Locate the `android-core.zip` file for your Processing installation.
+              * OS X: `~/Documents/Processing/modes/AndroidMode`.
+			  * Windows: `~\Documents\Processing\modes\AndroidMode`.
               * (TODO) Linux
+	      * Click Open.
       1. (TODO) or Check out the latest code from the [Processing repository](https://github.com/processing/processing).
-  * Android Platform Library (android.jar)
+  * Android Platform Library (`android.jar`)
       1. Open the Properties panel for your project (right-click/control-click on the project → Properties)
       1. Click on Java Build Path → Libraries
       1. Click the Add External JARs... button
       1. Browse to the location of your Android SDK installation.
-      1. From the main SDK folder, browse to platforms/android-10 (newer versions will work, too).
-      1. Select the android.jar file and click Open. android.jar should now be listed in the Libraries tab of your project properties.
+      1. From the main SDK folder, browse to `platforms/android-10` (newer versions will work, too).
+      1. Select the `android.jar` file and click Open. `android.jar` should now be listed in the Libraries tab of your project properties.
       1. (Optional) Add the Android documentation (if you included it when you installed the Android SDK)
-          * Expand the android.jar entry in the Libraries tab.
+          * Expand the `android.jar` entry in the Libraries tab.
           * Click the sub-entry labeled "Javadoc location: (none)".
           * Click Edit. A window titled "Javadoc For 'android.jar'" will appear.
           * Click the Browse button next to the Javadoc location path text box.
@@ -58,20 +82,14 @@ Based on the [[Eclipse Library Template|Eclipse-Library-Template]]
           * Click Open.
           * Click OK. The path to the Javadocs for android.jar will now be listed.
       1. Close the Properties panel by clicking OK.
-  * Import the Processing Android Library Template into the project.
-      1. Select the project.
-      1. Right-click/control-click → Import...
-      1. Click General → Archive File → Next
-      1. In the "From archive file" box, select the template .zip file that you downloaded in step 1.
-      1. Ensure the checkbox next to the archive root (/) is checked.
-      1. Click Finish. The directory structure and example code from the template will be added to your project.
-  * Edit the resources/build.properties file to ensure the following fields are set correctly.
-      * **sketchbook.location** is a quasi-optional field that should be set to the path of your Processing sketchbook folder. This field serves two main purposes in the Ant build. If you do not want either of these two things to happen when you build your library, set sketchbook.location to a path **other** than your actual sketchbook folder. **However**, be aware that the sketchbook.location path will be created if it does not exist.
-          * Ant will automatically include anything in your sketchbook/libraries folder in the classpath, which is kind of handy if you are dependent on other libraries that you have installed.
-          * When the build is complete, Ant will automatically deploy the library to the sketchbook/libraries path defined here (in addition to building a .zip distribution).
-      * **classpath.local.location** should be the path of the android-core.zip file that you added to your project build path in step 3 (do not include the filename "android-core.zip" in this path).
-android_platform.location should be the path of the android.jar that you specified in step 3 (do not include the filename "android-core.zip" in this path).
-      * All of the fields in sections (4) and on are for metadata about your library. These values get put in the documentation files for the distribution.
+1. Edit the resources/build.properties file to ensure the following fields are set correctly.
+  * **sketchbook.location** is a quasi-optional field that should be set to the path of your Processing sketchbook folder. This field serves two main purposes in the Ant build. If you do not want either of these two things to happen when you build your library, set sketchbook.location to a path **other** than your actual sketchbook folder. **However**, be aware that the sketchbook.location path will be created if it does not exist.
+      * Ant will automatically include anything in your sketchbook/libraries folder in the classpath, which is kind of handy if you are dependent on other libraries that you have installed.
+      * When the build is complete, Ant will automatically deploy the library to the sketchbook/libraries path defined here (in addition to building a .zip distribution).
+  * **classpath.local.location** should be the path of the android-core.zip file that you added to your project build path in step 3 (do not include the filename "android-core.zip" in this path).
+  * **android_platform.location** should be the path of the android.jar that you specified in step 3 (do not include the filename "android-core.zip" in this path).
+  * All of the fields in sections (4) and on are for metadata about your library. These values get put in the documentation files for the distribution.
+1. Compile your library using Ant.
   * In Eclipse, show the Ant panel (Window → Show View → Ant).
   * Drag the resources/build.xml file over to the Ant panel.
   * Select the task that is now listed in the Ant view and click the Run button in the Ant panel.
