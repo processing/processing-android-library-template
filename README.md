@@ -11,7 +11,7 @@ The following components must be installed in order to go through the Usage Inst
 * Java-oriented version of [Eclipse](http://www.eclipse.org/) (such as the Eclipse IDE for Java Developers)
 * Java JDK version 6 or higher
 * [Android SDK](https://developer.android.com/studio/index.html#downloads) with the API level 25 or later.
-* [Processing 3.1](http://processing.org/download/) or later
+* [Processing 3.1](http://processing.org/download/) or later.
 * Android mode for Processing, downloaded in the PDE using the Mode Manager.
 
 ## Import to Eclipse
@@ -87,7 +87,7 @@ There are two options to import the template project into Eclipse: using a Git [
   * **sketchbook.location** is a quasi-optional field that should be set to the path of your Processing sketchbook folder. This field serves two main purposes in the Ant build. If you do not want either of these two things to happen when you build your library, set sketchbook.location to a path **other** than your actual sketchbook folder. **However**, be aware that the sketchbook.location path will be created if it does not exist.
       * Ant will automatically include anything in your sketchbook/libraries folder in the classpath, which is kind of handy if you are dependent on other libraries that you have installed.
       * When the build is complete, Ant will automatically deploy the library to the sketchbook/libraries path defined here (in addition to building a .zip distribution).
-  * **classpath.local.location** should be the path of the android-core.zip file that you added to your project build path in step 3 (do not include the filename "android-core.zip" in this path).
+  * **classpath.local.location** should be the path of the processing-core.zip file that you added to your project build path in step 3 (do not include the filename "processing-core.zip" in this path).
   * **android_platform.location** should be the path of the android.jar that you specified in step 3 (do not include the filename "android-core.zip" in this path).
   * All of the fields in sections (4) and on are for metadata about your library. These values get put in the documentation files for the distribution.
 1. Compile your library using Ant.
