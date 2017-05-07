@@ -56,7 +56,7 @@ There are two options to import the template project into Eclipse: using a Git [
 
 1. Add the Processing and Android libraries to the Project build path to enable syntax highlighting and library reference in Eclipse.
   * Processing Android Core Library (`processing-core.zip`). There are two main ways of doing this, depending on how bleeding-edge you want to be.
-      1. Point to the android-core.zip that comes with the Processing application.
+      1. Point to the processing-core.zip that comes with the Processing application.
           * Open the Properties panel for your project (right-click/control-click on the project → Properties)
           * Click on Java Build Path → Libraries
           * Click the Add External JARs... button
@@ -88,7 +88,7 @@ There are two options to import the template project into Eclipse: using a Git [
       * Ant will automatically include anything in your sketchbook/libraries folder in the classpath, which is kind of handy if you are dependent on other libraries that you have installed.
       * When the build is complete, Ant will automatically deploy the library to the sketchbook/libraries path defined here (in addition to building a .zip distribution).
   * **classpath.local.location** should be the path of the processing-core.zip file that you added to your project build path in step 3 (do not include the filename "processing-core.zip" in this path).
-  * **android_platform.location** should be the path of the android.jar that you specified in step 3 (do not include the filename "android-core.zip" in this path).
+  * **android_platform.location** should be the path of the android.jar that you specified in step 3 (do not include the filename "processing-core.zip" in this path).
   * All of the fields in sections (4) and on are for metadata about your library. These values get put in the documentation files for the distribution.
 1. Compile your library using Ant.
   * In Eclipse, show the Ant panel (Window → Show View → Ant).
