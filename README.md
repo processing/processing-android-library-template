@@ -62,8 +62,8 @@ There are two options to import the template project into Eclipse: using a Git [
           * Click the Add External JARs... button
           * Locate the `processing-core.zip` file for your Processing installation.
               * OS X: `~/Documents/Processing/modes/AndroidMode`.
-			  * Windows: `~\Documents\Processing\modes\AndroidMode`.
-              * (TODO) Linux
+	      * Windows: `~\Documents\Processing\modes\AndroidMode`.
+              * Linux: `~/Documents/Processing/modes/AndroidMode`.
 	      * Click Open.
       1. (TODO) or Check out the latest code from the [Processing repository](https://github.com/processing/processing).
   * Android Platform Library (`android.jar`)
