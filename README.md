@@ -10,8 +10,8 @@ The following components must be installed in order to go through the Usage Inst
 
 * Java-oriented version of [Eclipse](http://www.eclipse.org/) (such as the Eclipse IDE for Java Developers)
 * Java JDK version 6 or higher
-* [Android SDK](http://developer.android.com/sdk/index.html) with the API level 10 or later.
-* [Processing 2.0](http://processing.org/download/) or later
+* [Android SDK](https://developer.android.com/studio/index.html#downloads) with the API level 25 or later.
+* [Processing 3.1](http://processing.org/download/) or later
 * Android mode for Processing, downloaded in the PDE using the Mode Manager.
 
 ## Import to Eclipse
@@ -55,12 +55,12 @@ There are two options to import the template project into Eclipse: using a Git [
 ## Set Up and Compile
 
 1. Add the Processing and Android libraries to the Project build path to enable syntax highlighting and library reference in Eclipse.
-  * Processing Android Core Library (`android-core.zip`). There are two main ways of doing this, depending on how bleeding-edge you want to be.
+  * Processing Android Core Library (`processing-core.zip`). There are two main ways of doing this, depending on how bleeding-edge you want to be.
       1. Point to the android-core.zip that comes with the Processing application.
           * Open the Properties panel for your project (right-click/control-click on the project → Properties)
           * Click on Java Build Path → Libraries
           * Click the Add External JARs... button
-          * Locate the `android-core.zip` file for your Processing installation.
+          * Locate the `processing-core.zip` file for your Processing installation.
               * OS X: `~/Documents/Processing/modes/AndroidMode`.
 			  * Windows: `~\Documents\Processing\modes\AndroidMode`.
               * (TODO) Linux
@@ -71,7 +71,7 @@ There are two options to import the template project into Eclipse: using a Git [
       1. Click on Java Build Path → Libraries
       1. Click the Add External JARs... button
       1. Browse to the location of your Android SDK installation.
-      1. From the main SDK folder, browse to `platforms/android-10` (newer versions will work, too).
+      1. From the main SDK folder, browse to `platforms/android-25` (newer versions will work, too).
       1. Select the `android.jar` file and click Open. `android.jar` should now be listed in the Libraries tab of your project properties.
       1. (Optional) Add the Android documentation (if you included it when you installed the Android SDK)
           * Expand the `android.jar` entry in the Libraries tab.
