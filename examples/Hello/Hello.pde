@@ -3,12 +3,11 @@ import template.library.*;
 HelloLibrary hello;
 
 void setup() {
-  size(400,400);
-  smooth();
+  fullScreen();
   
   hello = new HelloLibrary(this);
   
-  PFont font = createFont("",40);
+  PFont font = createFont("SansSerif", 40 * displayDensity);
   textFont(font);
 }
 
