@@ -1,4 +1,4 @@
-These instructions will help you get started with developing a library for Processing Android using Eclipse. The steps walk you through three main tasks.
+These instructions will help you get started with developing a library for Processing Android using Gradle and Android Studio. The steps walk you through three main tasks.
 
 1. Setting up the project in Eclipse
 1. Configuring the build properties so that your library can be built and packaged by Ant
