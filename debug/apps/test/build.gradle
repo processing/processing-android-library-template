@@ -29,5 +29,5 @@ dependencies {
     implementation 'org.p5android:processing-core:4.0.4'
     implementation 'com.android.support:appcompat-v7:26.0.2'
     implementation 'com.android.support:design:26.0.2'
-    implementation project(':libs:template')
+    implementation project(':libs:YourLibrary')
 }

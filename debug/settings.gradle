@@ -1,1 +1,1 @@
-include ':apps:test', ':libs:template'
+include ':apps:test', ':libs:YourLibrary'
