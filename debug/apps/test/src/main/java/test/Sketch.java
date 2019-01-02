@@ -1,8 +1,8 @@
 package test;
 
 import processing.core.PApplet;
-
-import template.*;
+import processing.core.PFont;
+import template.library.*;
 
 public class Sketch extends PApplet {
 
