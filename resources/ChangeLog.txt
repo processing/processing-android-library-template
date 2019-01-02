@@ -1,3 +1,7 @@
+2019-01-02  Andres Colubri
+      * version 0.5
+      * updated to use Gradle build system
+
 2012-02-16  Elie Zananiri
       * version 0.4.7
       * fixed up formatting to match new tool template
