@@ -1,8 +1,10 @@
-These instructions will help you get started with developing a library for Processing Android using Gradle and Android Studio. The steps walk you through three main tasks.
+These instructions will help you get started with developing a library for Processing Android using Gradle and Android Studio. The steps walk you through three main tasks:
 
 1. Configuring the build properties so that your library can be built and packaged by Gradle.
 2. Finding the library files produced by Gradle for use in Processing and redistribution.
 3. Setting up the debug project in Android Studio, which allows you to develop and debug your library using Android Studio as the programming environment.
+
+**NOTE:** This template should be used as the starting point for a new library that uses [Android-specific functions](https://android.processing.org/reference/) in the Android mode, or API from the [Android platform](https://developer.android.com/reference/packages). If your library only uses the regular Processing API and does not depend on any desktop-specific functionality or packages, you could use the regular [Processing library template](https://github.com/processing/processing-library-template).
 
 ## Prerequisites
 
