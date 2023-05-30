@@ -11,11 +11,10 @@ These instructions will help you get started with developing a library for Proce
 The following components must be installed in order to go through the Usage Instructions.
 
 * [Gradle Build Tool](https://gradle.org/).
-* Latest release of the [Java JDK version 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+* Latest LTS release of the [Adoptium OpenJDK](https://adoptium.net/).
 * [Git client](https://git-scm.com/downloads).
 * [Android Studio](https://developer.android.com/studio/) version 3.1 or later.
-* [Android SDK](https://developer.android.com/studio/index.html#downloads) with the API level 26 or later.
-* [Processing 3.1](http://processing.org/download/) or later.
+* [Processing 4.2](https://processing.org/download/) or later.
 * Android mode for Processing, installed into the PDE using the [Contributions Manager](https://android.processing.org/tutorials/getting_started/index.html).
 
 ## Set Up and Compile
@@ -37,7 +36,7 @@ The following components must be installed in order to go through the Usage Inst
 
 After having compiled and built your project successfully, you should be able to find your library in Processing's sketchbook folder, examples will be listed in Processing's sketchbook menu. The Gradle build process also generates a zip package of your library for distribution.
 
-## Import to Android Studio
+## Import into Android Studio
 
 1. Open Android Studio and select the "Import project" menu item in the welcome screen. 
 2. Navigate to the location where you checked out the repository in your computer, and select the debug folder.
