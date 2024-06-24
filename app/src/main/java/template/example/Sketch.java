@@ -1,9 +1,10 @@
-package hello;
+package template.example;
 
 import processing.core.*;
 import template.library.*;
 
 public class Sketch extends PApplet {
+  protected HelloLibrary hello;
 
   public void settings() {
     fullScreen();

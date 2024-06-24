@@ -3,9 +3,12 @@ plugins {
 }
 
 android {
+    namespace 'template.example'
+    compileSdkVersion 33
+    
     defaultConfig {
-        applicationId "processing.tests.simple"
-        minSdkVersion 17
+        applicationId "hello.library"
+        minSdkVersion 19
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -27,6 +30,7 @@ android {
 dependencies {
     testImplementation 'junit:junit:4.13.2'    
     implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'org.processing.android:processing-core:4.6.0'
 
-    implementation project(':libs:processing-core')
+    implementation project(':library')
 }

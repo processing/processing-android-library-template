@@ -1,4 +1,4 @@
-package simple;
+package template.example;
 
 import android.os.Bundle;
 import android.content.Intent;

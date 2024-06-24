@@ -22,6 +22,9 @@ allprojects {
         // Apparently needed by AndroidX dependencies
         maven { url "https://jitpack.io" }
 
+        // Repository with Processing for Android core library
+        maven { url "https://raw.github.com/processing/processing-android/repository/" }
+
         mavenCentral()
         google()
     }

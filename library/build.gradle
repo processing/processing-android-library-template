@@ -3,8 +3,9 @@ plugins {
 }
 
 android {
-    namespace "processing.vr"
-
+    namespace "template.library"
+    compileSdkVersion 33
+    
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 33
@@ -19,6 +20,5 @@ android {
 }
 
 dependencies {
-    implementation project(':libs:processing-core')
-    implementation project(':libs:google-vr')
+    implementation 'org.processing.android:processing-core:4.6.0'
 }

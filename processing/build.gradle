@@ -295,7 +295,7 @@ task dist {
         //                         file("distribution/${libName}/data"))
         FileUtils.copyDirectory(file("library"),
                 file("distribution/${libName}/library"))
-        FileUtils.copyDirectory(file("src"),
+        FileUtils.copyDirectory(file("../library/src"),
                 file("distribution/${libName}/src"))
 //        Files.copy(file("resources/library.properties").toPath(),
 //                file("distribution/${libName}/library.properties").toPath(), REPLACE_EXISTING);
