@@ -10,7 +10,7 @@ These instructions will help you get started with developing a library for Proce
 
 The following components must be installed in order to go through the Usage Instructions.
 
-* [Gradle Build Tool](https://gradle.org/).
+* [Gradle Build Tool](https://gradle.org/) (version 7.x, this library template is not compatible with Gradle 8+ yet).
 * Latest LTS release of the [Adoptium OpenJDK](https://adoptium.net/).
 * [Git client](https://git-scm.com/downloads).
 * [Android Studio](https://developer.android.com/studio/) version 3.1 or later.
