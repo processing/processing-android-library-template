@@ -1,3 +1,7 @@
+2024-06-24  Andres Colubri, Sarah Lensing
+      * version 0.9
+      * Use new project structure to follow Android build standards more closely  
+
 2023-05-30  Andres Colubri, Kate Hollenbach 
       * version 0.6
       * updates in build script to support latest versions of Gradle
