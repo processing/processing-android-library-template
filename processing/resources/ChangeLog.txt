@@ -1,3 +1,8 @@
+2023-05-30  Andres Colubri, Kate Hollenbach 
+      * version 0.6
+      * updates in build script to support latest versions of Gradle
+      * moved aar extraction code from build script to importAar plugin      
+
 2019-01-02  Andres Colubri
       * version 0.5
       * updated to use Gradle build system

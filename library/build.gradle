@@ -1,29 +1,24 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+}
 
 android {
-    compileSdkVersion 28
+    namespace "processing.vr"
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        minSdkVersion 19
+        targetSdkVersion 33
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    productFlavors {
+    }
 }
 
 dependencies {
-    api 'org.p5android:processing-core:4.0.4'
-
-    implementation 'org.tensorflow:tensorflow-lite:1.13.1'
+    implementation project(':libs:processing-core')
+    implementation project(':libs:google-vr')
 }
