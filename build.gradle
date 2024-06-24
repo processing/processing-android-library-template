@@ -1,14 +1,4 @@
-import java.nio.file.Files
-import org.zeroturnaround.zip.ZipUtil
-import org.apache.commons.io.FileUtils
-import java.util.regex.Pattern
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import org.apache.tools.ant.filters.ReplaceTokens
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'java-library'
-apply plugin: 'aar'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
@@ -17,300 +7,29 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
-        classpath group: 'commons-io', name: 'commons-io', version: '2.12.0'
-        classpath group: 'org.zeroturnaround', name: 'zt-zip', version: '1.15'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
 allprojects {
     repositories {
-        google()
+        // This was was added to address an issue in JCenter with some Android packages (https://stackoverflow.com/questions/50563338/could-not-find-runtime-jar-android-arch-lifecycleruntime1-0-0/50564224).
+        // JCenter is no longer used but keep it just in case.
+        maven { url "https://maven.google.com" }
+
+        // Apparently needed by AndroidX dependencies
+        maven { url "https://jitpack.io" }
+
+        // Repository with Processing for Android core library
+        maven { url "https://raw.github.com/processing/processing-android/repository/" }
+
         mavenCentral()
-        maven {
-            url "https://raw.github.com/processing/processing-android/repository/"
-        }
-    }
-
-    // Getting build properties
-    Properties buildProperties = new Properties()
-    buildProperties.load(project.rootProject.file("resources/build.properties").newDataInputStream())
-
-    ext.javaVersion = buildProperties.getProperty("java.target.version")
-    ext.libName = buildProperties.getProperty("library.name")
-    ext.libPackage = buildProperties.getProperty("library.package")
-
-    ext.libVersion = buildProperties.getProperty("library.version")
-    ext.libPrettyVersion = buildProperties.getProperty("library.prettyVersion")
-
-    ext.projectProperties = buildProperties
-
-    // work around suggested by
-    // https://youtrack.jetbrains.com/issue/IDEA-276365
-    configurations.compileOnly.canBeResolved = true
-
-    project.archivesBaseName = libName
-
-    ext.userHome = System.getProperty("user.home")
-    ext.sketchbookLocation = buildProperties.getProperty("sketchbook.location").replace("\${user.home}", userHome)
-    ext.replaceEnv = { value ->
-        value = value.replace("\${sketchbook.location}", sketchbookLocation)
-        value = value.replace("\${user.home}", userHome)
-        return value
-    }
-
-    ext.sdkLocation = replaceEnv(buildProperties.getProperty("android_sdk.location"))
-    ext.sdkAPILevel = buildProperties.getProperty("android_sdk.api_level")
-    ext.jarDeps = buildProperties.getProperty("dependencies.jar").split(',')
-    ext.aarDeps = buildProperties.getProperty("dependencies.aar").split(',')
-    ext.libDeps = replaceEnv(buildProperties.getProperty("dependencies.libraries")).split(',')
-    ext.copyDeps = buildProperties.getProperty("dependencies.copy_to_library").split(',')
-    ext.allJarDeps = []
-
-    ext.compileMode = buildProperties.getProperty("project.compile")
-
-    // Extracting library names from the local library dependencies
-    ext.libNames = []
-    for (lib in libDeps) {
-        if (lib) libNames.add(lib.split("/")[-1])
-    }
-
-    // Putting all remote depndencies (jar and aar) into an array to pass to the pom task
-    ext.remoteDependencies = []
-    ext.addRemoteDepenency = { dep ->
-        def parts = dep.split(':')
-        if (parts.length != 3) {
-            throw new GradleException(
-                    "Malformed Gradle dependency: " + lib + "\n" +
-                            "It needs to have three parts: group, name, and version, separated by colons.")
-        }
-        remoteDependencies.add([group:parts[0], name:parts[1], version:parts[2]])
-    }
-    for (dep in jarDeps) addRemoteDepenency(dep)
-    for (dep in aarDeps) addRemoteDepenency(dep)
-
-    def fn = project.rootProject.file("local.properties")
-    if (!fn.exists()) {
-        if (sdkLocation) {
-            fn.withWriterAppend { w ->
-                w << "sdk.dir=${sdkLocation}\n"
-            }
-        } else if (System.env["ANDROID_SDK"] != null) {
-            def syspath = System.env["ANDROID_SDK"]
-            def parts = syspath.split(Pattern.quote(File.separator))
-            def path = String.join("/", parts)
-            fn.withWriterAppend { w ->
-                w << "sdk.dir=${path}\n"
-            }
-        } else {
-            throw new GradleException(
-                    "No Android SDK path provided in build.properties file, and there is no ANDROID_SDK environmental variable defined in the system.\n" +
-                            "Set the path in local.properties, orefine ANDROID_SDK so it points to the location of the Android SDK.\n" +
-                            "You can also create the local.properties file manully and add the following line to it:\n" +
-                            "sdk.dir=<path to Android SDK>")
-        }
-    }
-
-    Properties localProperties = new Properties()
-    localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
-    def sdkDir = localProperties.getProperty("sdk.dir")
-    ext.androidPlatformPath = "${sdkDir}/platforms/android-${sdkAPILevel}"
-
-    repositories {
         google()
-        maven {
-            url "https://raw.github.com/processing/processing-android/repository/"
-        }
-        flatDir dirs: androidPlatformPath
-        for (lib in libDeps) {
-            if (lib) flatDir dirs: lib + "/library"
-        }
-        flatDir {
-            dirs 'lib'
-        }
-    }
-
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-
-clean.doFirst {
-    delete "distribution"
-}
-
-dependencies {
-    compileOnly name: "android"
-    for (dep in jarDeps) compileOnly dep
-    for (dep in aarDeps) implementationAar dep
-    for (dep in libNames) compileOnly name: dep
-}
-
-project.afterEvaluate {
-
-    ext.copyJarDependency = { fn ->
-        if (fn.name.lastIndexOf('.jar') != fn.name.size() - 4) return
-        allJarDeps.add(fn)
-        copyDeps.each { dep ->
-            if (dep &&  -1 < fn.name.indexOf(dep)) {
-                File libraryFolder = new File(System.getProperty("user.dir"), "library")
-                libraryFolder.mkdirs();
-                final File libraryJar = new File(libraryFolder, fn.getName())
-                Files.copy(fn.toPath(), libraryJar.toPath(), REPLACE_EXISTING);
-            }
-        }
-    }
-
-    it.configurations.getByName("compileOnly").forEach { depFile -> copyJarDependency(depFile) }
-    it.configurations.getByName("implementationAar").forEach { depFile -> copyJarDependency(depFile) }
-}
-
-/*
-task createPom {
-    if (compileMode == "normal") {
-        pom {
-            project {
-                groupId "${libPackage}"
-                artifactId "${libName}"
-                version "${libPrettyVersion}"
-                packaging "jar"
-                licenses {
-                    license {
-                        name "GNU Lesser General Public License, version 2.1"
-                        url "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt"
-                        distribution "repo"
-                    }
-                }
-            }
-        }.withXml {
-            // Add remote dependencies the pom file
-            def dependenciesNode = asNode().appendNode('dependencies')
-            remoteDependencies.each { dependency ->
-                def dependencyNode = dependenciesNode.appendNode('dependency')
-                dependencyNode.appendNode('groupId', dependency.group)
-                dependencyNode.appendNode('artifactId', dependency.name)
-                dependencyNode.appendNode('version', dependency.version)
-                dependencyNode.appendNode('scope', 'implementation')
-            }
-        }.writeTo("distribution/${libName}-${libPrettyVersion}.pom")
-    }
-}
-*/
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ["src/"]
-        }
     }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier = "sources"
-    from sourceSets.main.allSource
-}
-
-task javadoc(type: Javadoc, overwrite: true) {
-    failOnError false
-
-    title = libName
-    source = sourceSets.main.allJava
-
-    // Adding all dependencies to the classpath. Because files is a lazy collection:
-    // https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html#files-java.lang.Object...-
-    // even though it has not been initalized yet it will be evaluated with the correct values.
-    classpath = sourceSets.main.runtimeClasspath + project.files(allJarDeps)
-}
-
-// Does not work because of Processing-specific tags in source code, such as @webref
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier = "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    if (compileMode == "normal") archives javadocJar
-}
-
-jar.doLast { task ->
-    ant.checksum file: task.archivePath
-}
-
-clean.doFirst {
-    delete "distribution/${libName}"
-    delete "library/jniLibs"
-    delete fileTree('library') {
-        include '**/*.jar'
-        include '**/*.so'
-    }
-}
-
-build.doLast {
-    // Create library folder
-    File libraryFolder = file("library")
-    libraryFolder.mkdirs();
-
-    // Copying lib jar to library folder
-    File libJar = file("library/${libName}.jar")
-    Files.copy(file("$buildDir/libs/${libName}.jar").toPath(),
-            libJar.toPath(), REPLACE_EXISTING);
-
-    // Copying 3d party libs to library folder
-    FileUtils.copyDirectory(file("lib"),
-            file("library"));
-
-    libJar.mkdirs();
-
-    if (compileMode == "normal") {
-        // Copying the files for release on Maven or other repositories
-        File distFolder = file("distribution");
-        distFolder.mkdirs();
-        Files.copy(file("$buildDir/libs/${libName}.jar").toPath(),
-                file("distribution/${libName}-${libPrettyVersion}.jar").toPath(), REPLACE_EXISTING);
-        Files.copy(file("$buildDir/libs/${libName}-sources.jar").toPath(),
-                file("distribution/${libName}-${libPrettyVersion}-sources.jar").toPath(), REPLACE_EXISTING);
-        Files.copy(file("$buildDir/libs/${libName}-javadoc.jar").toPath(),
-                file("distribution/${libName}-${libPrettyVersion}-javadoc.jar").toPath(), REPLACE_EXISTING);
-        Files.copy(file("$buildDir/libs/${libName}.jar.MD5").toPath(),
-                file("distribution/${libName}-${libPrettyVersion}.jar.md5").toPath(), REPLACE_EXISTING);
-    }
-}
-
-task generateLibraryProperties(type: Copy) {
-    from 'resources'
-    into "distribution/${libName}/"
-    include 'library.properties'
-    filter(ReplaceTokens, beginToken:"##", endToken:"##", tokens: projectProperties)
-}
-
-task dist {
-    dependsOn build
-    dependsOn generateLibraryProperties
-    doLast {
-        File distFolder = file("distribution/${libName}");
-        distFolder.mkdirs();
-
-        FileUtils.copyDirectory(file("examples"),
-                file("distribution/${libName}/examples"))
-        // FileUtils.copyDirectory(file("data"),
-        //                         file("distribution/${libName}/data"))
-        FileUtils.copyDirectory(file("library"),
-                file("distribution/${libName}/library"))
-        FileUtils.copyDirectory(file("src"),
-                file("distribution/${libName}/src"))
-//        Files.copy(file("resources/library.properties").toPath(),
-//                file("distribution/${libName}/library.properties").toPath(), REPLACE_EXISTING);
-
-        if (compileMode == "normal") {
-            // Copy reference
-            FileUtils.copyDirectory(file("$buildDir/docs/javadoc"),
-                    file("distribution/${libName}/reference"))
-            Files.copy(file("resources/stylesheet.css").toPath(),
-                    file("distribution/${libName}/reference/stylesheet.css").toPath(), REPLACE_EXISTING);
-
-            ZipUtil.pack(file("distribution/${libName}"), new File("distribution/${libName}-${libVersion}.zip"));
-        }
-
-        FileUtils.copyDirectory(file("distribution/${libName}"),
-                file("${sketchbookLocation}/libraries/${libName}"))
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

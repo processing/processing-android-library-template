@@ -1,0 +1,24 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace "template.library"
+    compileSdkVersion 33
+    
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 33
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    implementation 'org.processing.android:processing-core:4.6.0'
+}
