@@ -11,7 +11,7 @@ These instructions will help you get started with developing a library for Proce
 The following components must be installed in order to go through the Usage Instructions.
 
 * [Gradle Build Tool](https://gradle.org/) (use version 7.x, this library template is not compatible with Gradle 8+ yet).
-* Latest LTS release of the [Adoptium OpenJDK](https://adoptium.net/).
+* Version 17 of LTS release of the [Adoptium OpenJDK](https://adoptium.net/) (21-LTS or newer not yet supported).
 * [Git client](https://git-scm.com/downloads).
 * [Android Studio](https://developer.android.com/studio/) version 3.1 or later.
 * [Processing 4.2](https://processing.org/download/) or later.
@@ -27,18 +27,20 @@ The following components must be installed in order to go through the Usage Inst
   * Change the repository name to the name of your library and save your changes.
   * NOTE: GitHub only allows you to fork a project once. If you need to create multiple forks, you can follow these [instructions](http://adrianshort.org/2011/11/08/create-multiple-forks-of-a-github-repo/).
 3. Checkout your fork of the template repository using your preferred git client.
-4. You can test if the template project can be built with Gradle by open a command line terminal, changing the directory to the processing inside the repository location, and calling ```gradle dist```. This should generarate a distribution folder with several files in it, including ```YourLibrary.zip```. If this is the case, then you are ready to start working with the template to create your own library.
-5. Edit the resources/build.properties file to ensure the following fields are set correctly.
+4. You can test if the template project can be built with Gradle by open a command line terminal, changing the directory to the ```processing``` subdirectory inside the repository location, and calling ```gradle dist```. This should generarate a distribution folder with several files in it, including ```YourLibrary.zip```. If this is the case, then you are ready to start working with the template to create your own library.
+5. Edit the ```processing/resources/build.properties``` file to ensure the following fields are set correctly.
   * **sketchbook.location** is a quasi-optional field that should be set to the path of your Processing sketchbook folder. This field tells the Gradle build to deploy the library to the sketchbook/libraries path defined here (in addition to building a .zip distribution).
   * **android_sdk.location** should contain the path to the Android SDK in your computer. If you have used the Android mode before and let it to automatically download the SDK for you, then it will be inside the sketchbook/android/sdk folder, but here you can set any other location.
   * All of the fields in sections (4) and on are for metadata about your library.
-6. Also, make sure to edit the library medatata in resources/library.properties file.
+6. Also, make sure to edit the library medatata in ```processing/resources/library.properties``` file.
 
 After having compiled and built your project successfully, you should be able to find your library in Processing's sketchbook folder, examples will be listed in Processing's sketchbook menu. The Gradle build process also generates a zip package of your library for distribution.
 
 ## Import into Android Studio
 
 1. Open Android Studio and select the "Import project" menu item in the welcome screen. 
-2. Navigate to the location where you checked out the repository in your computer, and select the debug folder.
-3. Android Studio should be able to import the debug project automatically, which includes the library itself and a minimal test app.
+2. Navigate to the location where you checked out the repository in your computer, and select the root folder (not the ```processing``` subfolder).
+3. Android Studio should be able to import the project automatically, which includes the library itself and a minimal test app.
+
+Note that the source code of the library is located inside ```library/src``` to follow standard Gradle's project structure. If you make changes there during the debugging using Android Studio, and then use the compilation and packaging instructions above, the resulting library package will include your latest changes in the source code made in Android Studio.
 
