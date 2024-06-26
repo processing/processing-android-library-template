@@ -42,5 +42,5 @@ After having compiled and built your project successfully, you should be able to
 2. Navigate to the location where you checked out the repository in your computer, and select the root folder (not the ```processing``` subfolder).
 3. Android Studio should be able to import the project automatically, which includes the library itself and a minimal test app.
 
-Note that the source code of the library is located inside ```library/src``` to follow standard Gradle's project structure. If you make changes there during the debugging using Android Studio, and then use the compilation and packaging instructions above, the resulting library package will include your latest changes in the source code made in Android Studio.
+**Important note:** The source code of the library is located inside ```library/src``` to follow standard Gradle's project structure. If you make changes there during the debugging using Android Studio, and then use the compilation and packaging instructions above, the resulting library package will include your latest changes in the source code made in Android Studio.
 
